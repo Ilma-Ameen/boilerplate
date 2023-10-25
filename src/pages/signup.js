@@ -8,6 +8,12 @@ export default function SignUp() {
   const [signupdata, setSignupdata] = useState({});
   const navigate = useNavigate();
 
+
+  const fillModel = (key, val) => {
+    signupdata[key] = val;
+    setSignupdata({ ...signupdata });
+  };
+
 let SignupUser = () => {
     console.log(signupdata);
     SignUpMethod(signupdata)
@@ -28,12 +34,11 @@ let SignupUser = () => {
             <IAInput
               label="Email"
               variant="outlined"
-              color="secondary"
+              color="error"
               type="email"
               sx={{ width: "100%" }}
-              value={signupdata.email}
-              onchange={(e) =>
-                setSignupdata({signupdata, email: e.target.value })
+              onChange={(e) =>
+                fillModel("email", e.target.value )
               }
             />
           </div>
@@ -41,20 +46,19 @@ let SignupUser = () => {
             <IAInput
               label="Password"
               variant="outlined"
-              color="secondary"
+              color="error"
               type="password"
               sx={{ width: "100%" }}
-              value={signupdata.password}
-              onchange={(e) =>
-                setSignupdata({signupdata, password: e.target.value })
+              onChange={(e) =>
+                fillModel("password", e.target.value )
               }
             />
           </div>
           <div>
             <IAButton
               variant="contained"
-              color="secondary"
-              onclick={SignupUser}
+              color="error"
+              onClick={SignupUser}
             >
               SignIn
             </IAButton>

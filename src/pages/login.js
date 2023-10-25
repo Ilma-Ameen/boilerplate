@@ -2,25 +2,27 @@ import IAInput from "../components/IAInput";
 import IAButton from "../components/IAButton";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { LoginMethod } from "../config/firebasemethods";
+import { fbLogin } from "../config/firebasemethods";
 
 export default function Login() {
-  const [logindata, setLogindata] = useState({});
+  const [model, setModel] = useState({});
   const navigate = useNavigate();
 
   const fillModel = (key, val) => {
-    logindata[key] = val;
-    setLogindata({ ...logindata });
-  };
+  model[key] = val;
+  setModel({ ...model });
+};
 
-  let LoginUser = () => {
-    console.log(logindata);
-    LoginMethod(logindata)
-      .then((response) => {
-        console.log(response);
+
+  const loginUser = () => {
+    console.log(model);
+    fbLogin(model)
+      .then((res) => {
+        console.log(res);
+        navigate("/Bloodbank");
       })
-      .catch((error) => {
-        console.log(error);
+      .catch((err) => {
+        console.log(err);
       });
   };
 
@@ -33,12 +35,11 @@ export default function Login() {
             <IAInput
               label="Email"
               variant="outlined"
-              color="secondary"
+              color="error"
               type="email"
               sx={{ width: "100%" }}
-              value={logindata.email || ""}
-              onchange={(e) =>
-                setLogindata({ ...fillModel, email: e.target.value })
+              onChange={(e) =>
+                fillModel("email", e.target.value )
               }
             />
           </div>
@@ -46,20 +47,19 @@ export default function Login() {
             <IAInput
               label="Password"
               variant="outlined"
-              color="secondary"
+              color="error"
               type="password"
               sx={{ width: "100%" }}
-              value={logindata.password || ""}
-              onchange={(e) =>
-                setLogindata({ fillModel, password: e.target.value })
+              onChange={(e) =>
+                fillModel("password", e.target.value)
               }
             />
           </div>
           <div>
             <IAButton
               variant="contained"
-              color="secondary"
-              onclick={LoginUser}
+              color="error"
+              onClick={loginUser}
             >
               Login
             </IAButton>
